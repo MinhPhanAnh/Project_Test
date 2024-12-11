@@ -31,7 +31,10 @@ def extract_text_from_pdf(file_path):
         with pdfplumber.open(file_path) as pdf:
             text = ""
             for page in pdf.pages:
-                text += page.extract_text() + "\n"
-        return clean_text(text)
+                # Sử dụng layout tốt hơn để giữ định dạng
+                page_text = page.extract_text()
+                if page_text:  # Kiểm tra nếu không rỗng
+                    text += page_text + "\n"
+            return clean_text(text)
     except Exception as e:
         raise ValueError(f"Lỗi khi xử lý file PDF: {e}")
