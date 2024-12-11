@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from utils import clean_text
+from utils_test import clean_text
 import streamlit as st
 from openai import OpenAI
 import os
