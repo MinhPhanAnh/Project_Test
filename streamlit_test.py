@@ -109,24 +109,24 @@ if uploaded_file:
                 question_counts[level] = count
 
             if st.button("Tạo câu hỏi", key="generate_questions"):
-    if not selected_levels:
-        st.error("Vui lòng chọn ít nhất một mức độ câu hỏi.")
-    elif not exam_title:
-        st.error("Vui lòng nhập tiêu đề đề kiểm tra.")
-    else:
-        all_results = []
-        for level in selected_levels:
-            extractor_class = extraction_levels[level]
-            extractor = extractor_class()
-            result = extractor.run(selected_chunks, question_counts[level])
-            all_results.extend(result["quizes"])
-
-        # Kiểm tra và làm sạch dữ liệu sau khi đã tạo câu hỏi
-        for idx, quiz in enumerate(all_results):
-            if not any(quiz['choices']):  # Kiểm tra nếu danh sách đáp án trống
-                st.warning(f"Câu hỏi số {idx + 1} bị thiếu đáp án. Kiểm tra lại nội dung file.")
-                quiz['choices'] = ["Đáp án A", "Đáp án B", "Đáp án C", "Đáp án D"]  # Thêm đáp án mặc định
-                quiz['answer'] = "Đáp án A"  # Đáp án mặc định
+                if not selected_levels:
+                    st.error("Vui lòng chọn ít nhất một mức độ câu hỏi.")
+                elif not exam_title:
+                    st.error("Vui lòng nhập tiêu đề đề kiểm tra.")
+                else:
+                    all_results = []
+                    for level in selected_levels:
+                        extractor_class = extraction_levels[level]
+                        extractor = extractor_class()
+                        result = extractor.run(selected_chunks, question_counts[level])
+                        all_results.extend(result["quizes"])
+            
+                    # Kiểm tra và làm sạch dữ liệu sau khi đã tạo câu hỏi
+                    for idx, quiz in enumerate(all_results):
+                        if not any(quiz['choices']):  # Kiểm tra nếu danh sách đáp án trống
+                            st.warning(f"Câu hỏi số {idx + 1} bị thiếu đáp án. Kiểm tra lại nội dung file.")
+                            quiz['choices'] = ["Đáp án A", "Đáp án B", "Đáp án C", "Đáp án D"]  # Thêm đáp án mặc định
+                            quiz['answer'] = "Đáp án A"  # Đáp án mặc định
 
                     st.session_state["quiz_data"] = all_results
 
